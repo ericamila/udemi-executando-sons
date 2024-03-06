@@ -10,8 +10,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final player = AudioPlayer();
+  double _volume = 0.5;
 
   _executar() async {
+    player.setVolume(_volume);
     // String url = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3';
     // await player.setSourceUrl(url);
 
@@ -20,9 +22,7 @@ class _HomeState extends State<Home> {
   }
 
   _pausar() async {
-
     await player.pause();
-
   }
 
   _parar() async {
@@ -33,16 +33,27 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Executando Sons'),
+          title: const Text('Executando Sons'),
         ),
         body: Column(
           children: [
-            //Slider
+            Slider(
+              value: _volume,
+              min: 0,
+              max: 1,
+              divisions: 10,
+              onChanged: (novoVolume) {
+                setState(() {
+                  _volume = novoVolume;
+                });
+                player.setVolume(novoVolume);
+              },
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   child: GestureDetector(
                     child: Image.asset('assets/imagens/executar.png'),
                     onTap: () {
@@ -51,7 +62,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   child: GestureDetector(
                     child: Image.asset('assets/imagens/pausar.png'),
                     onTap: () {
@@ -60,7 +71,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   child: GestureDetector(
                     child: Image.asset('assets/imagens/parar.png'),
                     onTap: () {
